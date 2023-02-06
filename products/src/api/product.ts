@@ -1,11 +1,12 @@
-import ProductService from "../services/product-service";
 import express, { Request, Response, NextFunction } from "express";
+import ProductService from "../services/product-service";
+
+import userAuth from '../api/middlewares/auth'
 
 export const Product = (app: express.Application) => {
   const service = new ProductService();
 
-  app.post(
-    "/product/signup",
+  app.post( "/create",
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         const { 

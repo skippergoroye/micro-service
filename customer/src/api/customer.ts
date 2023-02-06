@@ -1,11 +1,11 @@
-import CustomerService from "../services/customer-service";
 import express, { Request, Response, NextFunction } from 'express'
+import CustomerService from "../services/customer-service";
 
 export const Customer = (app:express.Application) => {
 
     const service = new CustomerService()
 
-    app.post('/customer/signup', async(req: Request, res:Response, next:NextFunction) => {
+    app.post('/signup', async(req:Request, res:Response, next:NextFunction) => {
         try {
             const { email, password, phone } = req.body
 
@@ -18,4 +18,26 @@ export const Customer = (app:express.Application) => {
             next(error) 
         }
     })
+
+
+    app.post('/login', async(req:Request, res:Response, next:NextFunction) => {
+        try {
+            const { email, password } = req.body
+
+            const data = await service.SignIn({ email, password })
+
+            return res.status(201).json(data)
+
+            // return res.status(201).json({
+            //     data,
+            //     message: "Login successfull"
+            // })
+        } catch (error) {
+            console.log(error)
+            next(error)
+        }
+    })
 }
+
+
+

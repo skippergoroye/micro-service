@@ -12,14 +12,18 @@ export class CustomerRepository {
 
       const customerResult = await customer.save();
       return customerResult;
+      
     } catch (error) {
       console.log(error);
     }
   }
 
   async FindCustomer({ email }: { email: string }) {
-    const existingCustomer = await CustomerModel.findOne({ email });
-
-    return existingCustomer;
+    try {
+      const existingCustomer = await CustomerModel.findOne({ email });
+      return existingCustomer;
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

@@ -13,7 +13,6 @@ export async function GeneratePassword (password: string, salt:string) {
 
 export async function GenerateSignature (payload: string | object | Buffer ){
     return sign(payload, APP_SECRET, {expiresIn: '1d'})
-
 }
 
 export async function FormatData (data: any){
@@ -38,4 +37,9 @@ export async function ValidateSignature(req: Request | any) {
     }
 }
 
+
+
+export const validatePassword = async (enteredPassword: string, savedPassword: string, salt: string) => {
+   return await GeneratePassword (enteredPassword, salt) === savedPassword
+}
 

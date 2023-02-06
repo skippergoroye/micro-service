@@ -1,10 +1,11 @@
 import { CustomerRepository } from "../database";
-import { IUser } from "./customer-service.dto";
+import { IUser, IUserSignIn } from "./customer-service.dto";
 import {
   GenerateSalt,
   GeneratePassword,
   GenerateSignature,
   FormatData,
+  validatePassword,
 } from "../utils/index";
 
 //Business Logic
@@ -16,10 +17,7 @@ class CustomerService {
   }
 
   async SignUp(userInput: IUser) {
-    const { 
-      email, 
-      password, 
-      phone } = userInput;
+    const { email, password, phone } = userInput;
 
     try {
       const existingCustomer = await this.repository.FindCustomer({ email });
@@ -38,11 +36,33 @@ class CustomerService {
         password: userPassword,
         salt,
         phone,
+        cart: []
       });
 
-      const token = GenerateSignature({ email });
+      const token = await GenerateSignature({ email });
 
       return FormatData({ customer, token });
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  }
+
+  async SignIn(userInput: IUserSignIn) {
+    const { email, password } = userInput;
+
+    try {
+      
+      const existingCustomer = await this.repository.FindCustomer({ email });
+
+      if (existingCustomer) {
+        const validPassword = await validatePassword(password, existingCustomer.password, existingCustomer.salt );
+
+        if (validPassword) {
+          const token = await GenerateSignature({ email });
+
+          return FormatData({ _id: existingCustomer._id, token });
+        }
+      }
     } catch (error) {
       throw new Error(`${error}`);
     }

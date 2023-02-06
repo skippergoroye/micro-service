@@ -33,7 +33,7 @@ class ProductService {
         suplier
       })
 
-      return FormatData
+      return FormatData(products)
       
     } catch (error) {
       throw new Error(`${error}`);

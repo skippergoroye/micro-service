@@ -5,6 +5,6 @@ export interface IProductDTO {
     type: string;
     unit: number;
     price: number;
-    avaliable:boolean;
-    suplier:string;
+    avaliable: boolean;
+    suplier: string;
 }

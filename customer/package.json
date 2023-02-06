@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:dev": "npx nodemon",
-    "build": "tsc -w"
+    "start:dev": "npx nodemon"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
